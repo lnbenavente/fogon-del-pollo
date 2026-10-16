@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Fogón del Pollo | Brasas & Tradición</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Poppins', sans-serif; }
+        .hero-bg {
+            background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.85)), 
+                        url('./banner.jpg'), 
+                        url('./banner.jpeg'),
+                        url('./banner.png'),
+                        url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body class="bg-amber-950 text-gray-100 min-h-screen flex flex-col justify-between">
+
+    <!-- NAVBAR -->
+    <nav class="bg-black/90 border-b border-amber-800/40 sticky top-0 z-50 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="#inicio" class="flex items-center space-x-3">
+                <img id="app-logo" src="./logo.jpg" onerror="this.onerror=null; this.src='./logo.png'; if(!this.src) this.src='./logo.jpeg';" alt="El Fogón del Pollo" class="w-14 h-14 rounded-full object-cover border-2 border-amber-500 shadow-md">
+                <div>
+                    <span class="text-xl font-black tracking-wider text-amber-500 uppercase block leading-none">EL FOGÓN</span>
+                    <span class="text-xs font-semibold text-amber-200 tracking-widest uppercase">DEL POLLO</span>
+                </div>
+            </a>
+
+            <div class="hidden md:flex items-center space-x-8 font-medium text-sm">
+                <a href="#inicio" class="hover:text-amber-400 transition-colors">Inicio</a>
+                <a href="#carta" class="hover:text-amber-400 transition-colors">Carta Digital</a>
+                <a href="#nosotros" class="hover:text-amber-400 transition-colors">Nosotros</a>
+                <a href="#ubicacion" class="hover:text-amber-400 transition-colors">Ubicación</a>
+            </div>
+
+            <a id="nav-ws-btn" href="#" target="_blank" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-5 py-2.5 rounded-full flex items-center space-x-2 transition-all transform hover:scale-105 shadow-md">
+                <i class="fab font-bold fa-whatsapp text-lg"></i>
+                <span class="text-sm">HACER PEDIDO</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header id="inicio" class="hero-bg py-20 px-4 text-center flex items-center justify-center min-h-[70vh]">
+        <div class="max-w-3xl mx-auto">
+            <span class="bg-amber-600/30 text-amber-400 border border-amber-500/50 text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-widest inline-block mb-4">
+                🔥 Sabor Tradicional a la Leña y Carbón
+            </span>
+            <h1 class="text-4xl md:text-6xl font-extrabold text-white leading-tight mb-6">
+                El Auténtico Pollo a la Brasa en <span class="text-amber-500">Mirones Bajo</span>
+            </h1>
+            <p class="text-gray-300 text-base md:text-lg mb-8 max-w-2xl mx-auto">
+                Disfruta de nuestros jugosos pollos a la brasa, salchipapas crocantes, bebidas y platos a la carta preparados al instante.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#carta" class="bg-amber-600 hover:bg-amber-500 text-white font-bold px-8 py-3.5 rounded-xl transition-all shadow-lg text-center">
+                    Ver Carta Digital
+                </a>
+                <a id="hero-delivery-btn" href="#" target="_blank" class="bg-zinc-800 hover:bg-zinc-700 text-white font-semibold px-8 py-3.5 rounded-xl border border-zinc-600 transition-all text-center">
+                    Pedir por Delivery
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- CARTA DIGITAL -->
+    <section id="carta" class="py-16 px-4 max-w-7xl mx-auto w-full">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-extrabold text-amber-500 mb-2">NUESTRA CARTA</h2>
+            <p class="text-gray-400 text-sm">Selecciona una categoría y realiza tu pedido directo al WhatsApp</p>
+        </div>
+
+        <div id="category-filters" class="flex flex-wrap justify-center gap-2 mb-10">
+            <button onclick="filterCategory('TODOS', this)" class="cat-btn active bg-amber-600 text-white px-5 py-2 rounded-full text-sm font-semibold transition-all">Todos</button>
+        </div>
+
+        <div id="dishes-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="col-span-full text-center py-12 text-gray-400">
+                <i class="fas fa-spinner fa-spin text-3xl text-amber-500 mb-3"></i>
+                <p>Cargando menú en tiempo real...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- NOSOTROS -->
+    <section id="nosotros" class="py-16 bg-zinc-900/80 border-t border-amber-900/30 px-4">
+        <div class="max-w-5xl mx-auto text-center">
+            <span class="text-amber-500 font-bold text-sm tracking-widest uppercase">Tradición & Pasión</span>
+            <h2 class="text-3xl md:text-4xl font-extrabold text-white mt-2 mb-6">Sobre El Fogón del Pollo</h2>
+            <p class="text-gray-300 text-base md:text-lg leading-relaxed max-w-3xl mx-auto mb-8">
+                Nacimos en el corazón de Mirones Bajo con la misión de ofrecer el verdadero sabor criollo y la calidez de la cocina hecha con paciencia y dedicación familiar.
+            </p>
+        </div>
+    </section>
+
+    <!-- UBICACIÓN & HORARIO -->
+    <section id="ubicacion" class="py-16 bg-black/50 border-t border-amber-900/30 px-4">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+                <span class="text-amber-500 font-bold text-sm tracking-widest uppercase">Encuéntranos</span>
+                <h2 class="text-3xl font-bold text-white mt-1 mb-6">Ubicación y Atención</h2>
+                
+                <div class="space-y-6 text-gray-300">
+                    <div class="flex items-start space-x-4">
+                        <div class="w-10 h-10 rounded-lg bg-amber-600/20 text-amber-500 flex items-center justify-center shrink-0 text-xl">📍</div>
+                        <div>
+                            <h4 class="font-bold text-white">Dirección</h4>
+                            <p id="txt-direccion">Cargando...</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-4">
+                        <div class="w-10 h-10 rounded-lg bg-amber-600/20 text-amber-500 flex items-center justify-center shrink-0 text-xl">🕒</div>
+                        <div>
+                            <h4 class="font-bold text-white">Horario de Atención</h4>
+                            <p id="txt-horario">Cargando...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 flex flex-wrap gap-4">
+                    <a href="https://maps.google.com/?q=Calle+Joaquin+Capello+2039,+Mirones+Bajo,+Lima" target="_blank" 
+                       class="bg-zinc-800 hover:bg-zinc-700 border border-zinc-600 text-white px-6 py-3 rounded-xl font-semibold text-sm flex items-center space-x-2">
+                        <i class="fas fa-map-marked-alt text-amber-500"></i>
+                        <span>Cómo llegar en Google Maps</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="w-full h-80 rounded-2xl overflow-hidden border border-amber-800/40 shadow-2xl">
+                <iframe width="100%" height="100%" style="border:0" loading="lazy" allowfullscreen 
+                    src="https://maps.google.com/maps?q=Calle+Joaquin+Capello+2039,+Mirones+Bajo,+Lima&output=embed">
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-black py-8 border-t border-amber-950 text-center text-xs text-gray-500">
+        <p>© 2026 El Fogón del Pollo. Todos los derechos reservados.</p>
+        <p class="mt-1">Mirones Bajo, Cercado de Lima, Perú</p>
+    </footer>
+
+    <!-- BOTÓN FLOTANTE -->
+    <a id="float-ws" href="#" target="_blank" 
+       class="fixed bottom-6 right-6 bg-emerald-500 hover:bg-emerald-400 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl z-50 text-2xl transition-transform transform hover:scale-110">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- LÓGICA DE CONEXIÓN CON APPS SCRIPT -->
+    <script>
+        // PEGA AQUÍ TU URL DE APPS SCRIPT OBTENIDA EN EL DESPLIEGUE:
+        const API_URL = "https://script.google.com/macros/s/AKfycbwYZuMtyN_16RCX6Rr7CTDv8bU3KNdktnHEZvBwRNKhezjrRZ3nZhk5k_FcnEFdSehgLw/exec"; 
+
+        const fallbackDishes = [
+            { categoria: 'Pollo a la Brasa', nombre: '1/4 Pollo a la Brasa', descripcion: 'Servido con crocantes papas fritas, ensalada fresca y cremas de la casa.', precio: '23.00', imagen: 'https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?auto=format&fit=crop&w=800&q=80', disponible: 'SI' }
+        ];
+
+        let allDishes = fallbackDishes;
+        let configData = { 
+            whatsapp: "51931762920", 
+            direccion: "Calle Joaquín Capello 2039, Mirones Bajo, Cercado de Lima, Perú", 
+            horario: "Lunes a Domingo: 12:00 m. a 10:00 p. m."
+        };
+
+        async function loadData() {
+            generateButtons();
+            renderDishes(allDishes);
+            applyConfig();
+
+            if (API_URL && API_URL.startsWith("http") && !API_URL.includes("PEGA_AQUI")) {
+                try {
+                    const resCarta = await fetch(`${API_URL}?sheet=Carta`);
+                    if (resCarta.ok) {
+                        const data = await resCarta.json();
+                        if (Array.isArray(data) && data.length > 0) {
+                            allDishes = data;
+                            generateButtons();
+                            renderDishes(allDishes);
+                        }
+                    }
+
+                    const resConfig = await fetch(`${API_URL}?sheet=Config`);
+                    if (resConfig.ok) {
+                        const configArr = await resConfig.json();
+                        if (Array.isArray(configArr)) {
+                            configArr.forEach(item => {
+                                if (item.clave && item.valor) configData[item.clave.toLowerCase()] = item.valor;
+                            });
+                            applyConfig();
+                        }
+                    }
+                } catch (err) {
+                    console.warn("Error leyendo API. Usando datos de respaldo.");
+                }
+            }
+        }
+
+        function applyConfig() {
+            document.getElementById('txt-direccion').textContent = configData.direccion;
+            document.getElementById('txt-horario').textContent = configData.horario;
+
+            if (configData.logo && configData.logo.startsWith('http')) {
+                document.getElementById('app-logo').src = configData.logo;
+            }
+
+            const wsNum = (configData.whatsapp || "51931762920").toString().replace(/\D/g, '');
+            const wsUrl = `https://wa.me/${wsNum}?text=Hola,%20quisiera%20hacer%20un%20pedido`;
+            document.getElementById('nav-ws-btn').href = wsUrl;
+            document.getElementById('hero-delivery-btn').href = wsUrl;
+            document.getElementById('float-ws').href = wsUrl;
+        }
+
+        function generateButtons() {
+            const container = document.getElementById('category-filters');
+            container.innerHTML = `<button onclick="filterCategory('TODOS', this)" class="cat-btn active bg-amber-600 text-white px-5 py-2 rounded-full text-sm font-semibold transition-all">Todos</button>`;
+            
+            const categories = [...new Set(allDishes.map(d => d.categoria))];
+            categories.forEach(cat => {
+                if(cat) {
+                    const btn = document.createElement('button');
+                    btn.className = "cat-btn bg-zinc-800 hover:bg-amber-900 text-gray-300 px-5 py-2 rounded-full text-sm font-semibold transition-all";
+                    btn.textContent = cat;
+                    btn.onclick = (e) => filterCategory(cat, e.target);
+                    container.appendChild(btn);
+                }
+            });
+        }
+
+        function renderDishes(dishes) {
+            const container = document.getElementById('dishes-container');
+            container.innerHTML = '';
+            const activeDishes = dishes.filter(d => (d.disponible || 'SI').toString().toUpperCase() === 'SI');
+
+            activeDishes.forEach(dish => {
+                const wsNum = (configData.whatsapp || "51931762920").toString().replace(/\D/g, '');
+                const wsText = encodeURIComponent(`Hola El Fogón del Pollo, quisiera pedir: *${dish.nombre}* (S/ ${dish.precio}).`);
+                const imgSrc = (dish.imagen && dish.imagen.startsWith('http')) ? dish.imagen : 'https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?auto=format&fit=crop&w=800&q=80';
+
+                container.innerHTML += `
+                    <div class="bg-zinc-900 border border-amber-900/30 rounded-2xl overflow-hidden shadow-xl flex flex-col justify-between hover:border-amber-600/50 transition-all">
+                        <div>
+                            <img src="${imgSrc}" alt="${dish.nombre}" class="w-full h-48 object-cover" onerror="this.src='https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?auto=format&fit=crop&w=800&q=80'">
+                            <div class="p-5">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="font-bold text-lg text-white">${dish.nombre}</h3>
+                                    <span class="text-amber-400 font-extrabold text-lg">S/ ${dish.precio}</span>
+                                </div>
+                                <p class="text-gray-400 text-sm mb-4">${dish.descripcion || ''}</p>
+                            </div>
+                        </div>
+                        <div class="p-5 pt-0">
+                            <a href="https://wa.me/${wsNum}?text=${wsText}" target="_blank" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-2.5 rounded-xl flex items-center justify-center space-x-2 text-sm transition-colors">
+                                <i class="fab fa-whatsapp"></i>
+                                <span>Pedir este plato</span>
+                            </a>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function filterCategory(cat, btnElement) {
+            document.querySelectorAll('.cat-btn').forEach(b => {
+                b.classList.remove('bg-amber-600', 'text-white');
+                b.classList.add('bg-zinc-800', 'text-gray-300');
+            });
+            btnElement.classList.remove('bg-zinc-800', 'text-gray-300');
+            btnElement.classList.add('bg-amber-600', 'text-white');
+            renderDishes(cat === 'TODOS' ? allDishes : allDishes.filter(d => d.categoria === cat));
+        }
+
+        window.addEventListener('DOMContentLoaded', loadData);
+    </script>
+</body>
+</html>
