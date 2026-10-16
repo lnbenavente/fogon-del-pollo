@@ -41,10 +41,16 @@
                 <a href="#ubicacion" class="hover:text-amber-400 transition-colors">Ubicación</a>
             </div>
 
-            <a id="nav-ws-btn" href="#" target="_blank" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-5 py-2.5 rounded-full flex items-center space-x-2 transition-all transform hover:scale-105 shadow-md">
-                <i class="fab font-bold fa-whatsapp text-lg"></i>
-                <span class="text-sm">HACER PEDIDO</span>
-            </a>
+            <!-- REDES SOCIALES NAVBAR Y BOTÓN PEDIDO -->
+            <div class="flex items-center space-x-4">
+                <div id="nav-socials" class="hidden sm:flex items-center space-x-3 border-r border-amber-800/50 pr-4">
+                    <!-- Inserción dinámica de redes -->
+                </div>
+                <a id="nav-ws-btn" href="#" target="_blank" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-5 py-2.5 rounded-full flex items-center space-x-2 transition-all transform hover:scale-105 shadow-md">
+                    <i class="fab font-bold fa-whatsapp text-lg"></i>
+                    <span class="text-sm">HACER PEDIDO</span>
+                </a>
+            </div>
         </div>
     </nav>
 
@@ -143,21 +149,24 @@
         </div>
     </section>
 
-    <!-- FOOTER -->
-    <footer class="bg-black py-8 border-t border-amber-950 text-center text-xs text-gray-500">
+    <!-- FOOTER CON REDES SOCIALES -->
+    <footer class="bg-black py-10 border-t border-amber-950 text-center text-xs text-gray-500">
+        <div id="footer-socials" class="flex justify-center space-x-6 mb-6 text-xl">
+            <!-- Inserción dinámica de redes sociales -->
+        </div>
         <p>© 2026 El Fogón del Pollo. Todos los derechos reservados.</p>
         <p class="mt-1">Mirones Bajo, Cercado de Lima, Perú</p>
     </footer>
 
-    <!-- BOTÓN FLOTANTE -->
+    <!-- BOTÓN FLOTANTE WHATSAPP -->
     <a id="float-ws" href="#" target="_blank" 
        class="fixed bottom-6 right-6 bg-emerald-500 hover:bg-emerald-400 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl z-50 text-2xl transition-transform transform hover:scale-110">
         <i class="fab fa-whatsapp"></i>
     </a>
 
-    <!-- LÓGICA DE CONEXIÓN CON APPS SCRIPT -->
+    <!-- LÓGICA DE CONEXIÓN -->
     <script>
-        // PEGA AQUÍ TU URL DE APPS SCRIPT OBTENIDA EN EL DESPLIEGUE:
+        // PEGA AQUÍ TU URL DE APPS SCRIPT:
         const API_URL = "https://script.google.com/macros/s/AKfycbwYZuMtyN_16RCX6Rr7CTDv8bU3KNdktnHEZvBwRNKhezjrRZ3nZhk5k_FcnEFdSehgLw/exec"; 
 
         const fallbackDishes = [
@@ -166,9 +175,12 @@
 
         let allDishes = fallbackDishes;
         let configData = { 
-            whatsapp: "51931762920", 
+            whatsapp: "51916044071", 
             direccion: "Calle Joaquín Capello 2039, Mirones Bajo, Cercado de Lima, Perú", 
-            horario: "Lunes a Domingo: 12:00 m. a 10:00 p. m."
+            horario: "Lunes a Domingo: 12:00 m. a 10:00 p. m.",
+            facebook: "",
+            instagram: "",
+            tiktok: ""
         };
 
         async function loadData() {
@@ -199,7 +211,7 @@
                         }
                     }
                 } catch (err) {
-                    console.warn("Error leyendo API. Usando datos de respaldo.");
+                    console.warn("Error leyendo la API. Usando respaldo.");
                 }
             }
         }
@@ -208,15 +220,41 @@
             document.getElementById('txt-direccion').textContent = configData.direccion;
             document.getElementById('txt-horario').textContent = configData.horario;
 
-            if (configData.logo && configData.logo.startsWith('http')) {
-                document.getElementById('app-logo').src = configData.logo;
-            }
-
-            const wsNum = (configData.whatsapp || "51931762920").toString().replace(/\D/g, '');
+            const wsNum = (configData.whatsapp || "51916044071").toString().replace(/\D/g, '');
             const wsUrl = `https://wa.me/${wsNum}?text=Hola,%20quisiera%20hacer%20un%20pedido`;
             document.getElementById('nav-ws-btn').href = wsUrl;
             document.getElementById('hero-delivery-btn').href = wsUrl;
             document.getElementById('float-ws').href = wsUrl;
+
+            // RENDERIZAR REDES SOCIALES
+            const navSocials = document.getElementById('nav-socials');
+            const footerSocials = document.getElementById('footer-socials');
+            navSocials.innerHTML = '';
+            footerSocials.innerHTML = '';
+
+            const networks = [
+                { id: 'facebook', icon: 'fab fa-facebook-f', color: 'hover:text-blue-500' },
+                { id: 'instagram', icon: 'fab fa-instagram', color: 'hover:text-pink-500' },
+                { id: 'tiktok', icon: 'fab fa-tiktok', color: 'hover:text-cyan-400' }
+            ];
+
+            networks.forEach(net => {
+                const url = configData[net.id];
+                if (url && url.startsWith('http')) {
+                    // Ícono Navbar
+                    navSocials.innerHTML += `
+                        <a href="${url}" target="_blank" class="text-gray-400 ${net.color} transition-colors text-base p-1">
+                            <i class="${net.icon}"></i>
+                        </a>
+                    `;
+                    // Ícono Footer
+                    footerSocials.innerHTML += `
+                        <a href="${url}" target="_blank" class="text-gray-400 ${net.color} transition-colors p-2 bg-zinc-900 rounded-full w-10 h-10 flex items-center justify-center border border-zinc-800">
+                            <i class="${net.icon}"></i>
+                        </a>
+                    `;
+                }
+            });
         }
 
         function generateButtons() {
@@ -241,7 +279,7 @@
             const activeDishes = dishes.filter(d => (d.disponible || 'SI').toString().toUpperCase() === 'SI');
 
             activeDishes.forEach(dish => {
-                const wsNum = (configData.whatsapp || "51931762920").toString().replace(/\D/g, '');
+                const wsNum = (configData.whatsapp || "51916044071").toString().replace(/\D/g, '');
                 const wsText = encodeURIComponent(`Hola El Fogón del Pollo, quisiera pedir: *${dish.nombre}* (S/ ${dish.precio}).`);
                 const imgSrc = (dish.imagen && dish.imagen.startsWith('http')) ? dish.imagen : 'https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?auto=format&fit=crop&w=800&q=80';
 
