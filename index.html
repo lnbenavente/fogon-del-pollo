@@ -41,11 +41,8 @@
                 <a href="#ubicacion" class="hover:text-amber-400 transition-colors">Ubicación</a>
             </div>
 
-            <!-- REDES SOCIALES NAVBAR Y BOTÓN PEDIDO -->
             <div class="flex items-center space-x-4">
-                <div id="nav-socials" class="hidden sm:flex items-center space-x-3 border-r border-amber-800/50 pr-4">
-                    <!-- Inserción dinámica de redes -->
-                </div>
+                <div id="nav-socials" class="hidden sm:flex items-center space-x-3 border-r border-amber-800/50 pr-4"></div>
                 <a id="nav-ws-btn" href="#" target="_blank" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-5 py-2.5 rounded-full flex items-center space-x-2 transition-all transform hover:scale-105 shadow-md">
                     <i class="fab font-bold fa-whatsapp text-lg"></i>
                     <span class="text-sm">HACER PEDIDO</span>
@@ -60,18 +57,25 @@
             <span class="bg-amber-600/30 text-amber-400 border border-amber-500/50 text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-widest inline-block mb-4">
                 🔥 Sabor Tradicional a la Leña y Carbón
             </span>
-            <h1 class="text-4xl md:text-6xl font-extrabold text-white leading-tight mb-6">
+            <h1 class="text-4xl md:text-6xl font-extrabold text-white leading-tight mb-4">
                 El Auténtico Pollo a la Brasa en <span class="text-amber-500">Mirones Bajo</span>
             </h1>
+            
+            <!-- MODALIDAD DE ATENCIÓN DINÁMICA DE SCRIPT -->
+            <p id="txt-modalidades" class="text-amber-400/90 text-xs md:text-sm font-semibold tracking-wider uppercase mb-6">
+                🍽️ Atendemos: Comedor en Salón • Para Llevar • Delivery
+            </p>
+
             <p class="text-gray-300 text-base md:text-lg mb-8 max-w-2xl mx-auto">
                 Disfruta de nuestros jugosos pollos a la brasa, salchipapas crocantes, bebidas y platos a la carta preparados al instante.
             </p>
+
             <div class="flex flex-col sm:flex-row justify-center gap-4">
                 <a href="#carta" class="bg-amber-600 hover:bg-amber-500 text-white font-bold px-8 py-3.5 rounded-xl transition-all shadow-lg text-center">
                     Ver Carta Digital
                 </a>
                 <a id="hero-delivery-btn" href="#" target="_blank" class="bg-zinc-800 hover:bg-zinc-700 text-white font-semibold px-8 py-3.5 rounded-xl border border-zinc-600 transition-all text-center">
-                    Pedir por Delivery
+                    Pedir por WhatsApp
                 </a>
             </div>
         </div>
@@ -149,11 +153,9 @@
         </div>
     </section>
 
-    <!-- FOOTER CON REDES SOCIALES -->
+    <!-- FOOTER -->
     <footer class="bg-black py-10 border-t border-amber-950 text-center text-xs text-gray-500">
-        <div id="footer-socials" class="flex justify-center space-x-6 mb-6 text-xl">
-            <!-- Inserción dinámica de redes sociales -->
-        </div>
+        <div id="footer-socials" class="flex justify-center space-x-6 mb-6 text-xl"></div>
         <p>© 2026 El Fogón del Pollo. Todos los derechos reservados.</p>
         <p class="mt-1">Mirones Bajo, Cercado de Lima, Perú</p>
     </footer>
@@ -166,11 +168,10 @@
 
     <!-- LÓGICA DE CONEXIÓN -->
     <script>
-        // PEGA AQUÍ TU URL DE APPS SCRIPT:
         const API_URL = "https://script.google.com/macros/s/AKfycbwYZuMtyN_16RCX6Rr7CTDv8bU3KNdktnHEZvBwRNKhezjrRZ3nZhk5k_FcnEFdSehgLw/exec"; 
 
         const fallbackDishes = [
-            { categoria: 'Pollo a la Brasa', nombre: '1/4 Pollo a la Brasa', descripcion: 'Servido con crocantes papas fritas, ensalada fresca y cremas de la casa.', precio: '23.00', imagen: 'https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?auto=format&fit=crop&w=800&q=80', disponible: 'SI' }
+            { categoria: 'Pollo a la Brasa', nombre: '1/4 Pollo a la Brasa', descripcion: 'Servido con crocantes papas fritas, ensalada fresca y cremas de la casa.', precio: '23.00', imagen: 'https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?auto=format&fit=crop&w=800&q=80', disponible: 'SI', etiqueta: 'Popular' }
         ];
 
         let allDishes = fallbackDishes;
@@ -178,6 +179,7 @@
             whatsapp: "51916044071", 
             direccion: "Calle Joaquín Capello 2039, Mirones Bajo, Cercado de Lima, Perú", 
             horario: "Lunes a Domingo: 12:00 m. a 10:00 p. m.",
+            modalidad_atencion: "Comedor en Salón • Para Llevar • Delivery",
             facebook: "",
             instagram: "",
             tiktok: ""
@@ -211,7 +213,7 @@
                         }
                     }
                 } catch (err) {
-                    console.warn("Error leyendo la API. Usando respaldo.");
+                    console.warn("Error leyendo API. Usando datos locales.");
                 }
             }
         }
@@ -219,6 +221,9 @@
         function applyConfig() {
             document.getElementById('txt-direccion').textContent = configData.direccion;
             document.getElementById('txt-horario').textContent = configData.horario;
+            if (configData.modalidad_atencion) {
+                document.getElementById('txt-modalidades').textContent = `🍽️ Atendemos: ${configData.modalidad_atencion}`;
+            }
 
             const wsNum = (configData.whatsapp || "51916044071").toString().replace(/\D/g, '');
             const wsUrl = `https://wa.me/${wsNum}?text=Hola,%20quisiera%20hacer%20un%20pedido`;
@@ -226,7 +231,7 @@
             document.getElementById('hero-delivery-btn').href = wsUrl;
             document.getElementById('float-ws').href = wsUrl;
 
-            // RENDERIZAR REDES SOCIALES
+            // RENDER REDES SOCIALES
             const navSocials = document.getElementById('nav-socials');
             const footerSocials = document.getElementById('footer-socials');
             navSocials.innerHTML = '';
@@ -241,18 +246,8 @@
             networks.forEach(net => {
                 const url = configData[net.id];
                 if (url && url.startsWith('http')) {
-                    // Ícono Navbar
-                    navSocials.innerHTML += `
-                        <a href="${url}" target="_blank" class="text-gray-400 ${net.color} transition-colors text-base p-1">
-                            <i class="${net.icon}"></i>
-                        </a>
-                    `;
-                    // Ícono Footer
-                    footerSocials.innerHTML += `
-                        <a href="${url}" target="_blank" class="text-gray-400 ${net.color} transition-colors p-2 bg-zinc-900 rounded-full w-10 h-10 flex items-center justify-center border border-zinc-800">
-                            <i class="${net.icon}"></i>
-                        </a>
-                    `;
+                    navSocials.innerHTML += `<a href="${url}" target="_blank" class="text-gray-400 ${net.color} transition-colors text-base p-1"><i class="${net.icon}"></i></a>`;
+                    footerSocials.innerHTML += `<a href="${url}" target="_blank" class="text-gray-400 ${net.color} transition-colors p-2 bg-zinc-900 rounded-full w-10 h-10 flex items-center justify-center border border-zinc-800"><i class="${net.icon}"></i></a>`;
                 }
             });
         }
@@ -282,11 +277,16 @@
                 const wsNum = (configData.whatsapp || "51916044071").toString().replace(/\D/g, '');
                 const wsText = encodeURIComponent(`Hola El Fogón del Pollo, quisiera pedir: *${dish.nombre}* (S/ ${dish.precio}).`);
                 const imgSrc = (dish.imagen && dish.imagen.startsWith('http')) ? dish.imagen : 'https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?auto=format&fit=crop&w=800&q=80';
+                
+                const badgeHtml = dish.etiqueta ? `<span class="absolute top-3 right-3 bg-amber-500 text-black font-extrabold text-xs uppercase px-3 py-1 rounded-full shadow-md z-10">${dish.etiqueta}</span>` : '';
 
                 container.innerHTML += `
-                    <div class="bg-zinc-900 border border-amber-900/30 rounded-2xl overflow-hidden shadow-xl flex flex-col justify-between hover:border-amber-600/50 transition-all">
+                    <div class="bg-zinc-900 border border-amber-900/30 rounded-2xl overflow-hidden shadow-xl flex flex-col justify-between hover:border-amber-600/50 transition-all relative">
                         <div>
-                            <img src="${imgSrc}" alt="${dish.nombre}" class="w-full h-48 object-cover" onerror="this.src='https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?auto=format&fit=crop&w=800&q=80'">
+                            <div class="relative">
+                                ${badgeHtml}
+                                <img src="${imgSrc}" alt="${dish.nombre}" class="w-full h-48 object-cover" onerror="this.src='https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?auto=format&fit=crop&w=800&q=80'">
+                            </div>
                             <div class="p-5">
                                 <div class="flex justify-between items-start mb-2">
                                     <h3 class="font-bold text-lg text-white">${dish.nombre}</h3>
